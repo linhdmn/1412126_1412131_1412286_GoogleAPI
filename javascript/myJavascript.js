@@ -1,4 +1,5 @@
 var map;
+var isDirecting = false;
 $(document).ready(function(){
   $(".hidden").hide();
   map = new GMaps({
@@ -44,8 +45,13 @@ $(document).ready(function(){
 // search
 $("#button_search").click(function(event) {
     var str = $("#inputAddress").val();
-    if(str !== ""){
+    if(str !== "" && isDirecting === false){
       findAddress(str);
+    }
+    //Nếu đang chỉ đường thì kích hoạt chỉ đường
+    if(isDirecting == true){
+      var des = $("#inputDestinations").val();
+      directing(str,des);
     }
 });
 $("#inputAddress").keyup(function(event) {
@@ -89,16 +95,55 @@ $("#button_location").click(function(event) {
     },
   });
 });
+//============================================
+function directing(ori,des){
+  GMaps.geocode({
+    address: ori,
+    callback: function(results,status){
+      if(status == 'OK'){
+        var oriPos = results[0].geometry.location;
+        map.setCenter(oriPos.lat(), oriPos.lng());
+        map.addMarker({
+          lat: oriPos.lat(),
+          lng: oriPos.lng()
+        });
+        GMaps.geocode({
+          address: des,
+          callback: function(results,status){
+            if(status == 'OK'){
+              var desPos = results[0].geometry.location;
+              map.drawRoute({
+                origin: [oriPos.lat(), oriPos.lng()],
+                destination: [desPos.lat(), desPos.lng()],
+                travelMode: 'driving',
+                strokeColor: '#FE0000',
+                strokeOpacity: 0.6,
+                strokeWeight: 6
+              });
+            }
+            else{
+              alert("Can't find destination!");
+            }
+          }
+        });
+      }
+    }
+  }); 
+}
+//-------------------------------
+//Nhan direction sẽ hiện và ẩn input destination đồng thời bật tắt chế độ chỉ đường
 $("#button_direct").click(function(event) {
   if($(".hidden").is(":hidden")){
     $(".hidden").show();
     $("#inputAddress").attr({
       placeholder: 'Enter starting..',
     });
+    isDirecting = true;
   }else{
     $(".hidden").hide();
     $("#inputAddress").attr({
       placeholder: "Search...",
     });
+    isDirecting = false;
   }
 });
