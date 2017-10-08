@@ -58,7 +58,6 @@ $("#button_search").click(function(event) {
 });
 $("#inputAddress").keyup(function(event) {
   var str = $("#inputAddress").val();
-  curOri = str;
   if(event.keyCode == 13 && str !== "")
   {
     findAddress(str);
@@ -91,6 +90,7 @@ $("#button_location").click(function(event) {
         });
       curOri = position;
       isCurrent = true;
+      $("#inputAddress").val(position.coords.latitude, position.coords.longitude);
     },
     error: function(error){
       alert('Geolocation failed: '+error.message);
@@ -102,19 +102,14 @@ $("#button_location").click(function(event) {
 });
 //============================================
 function directing(ori,des){
-  GMaps.geocode({
-    address: ori,
-    callback: function(results,status){
-      if(status == 'OK'){
-        var oriPos = results[0].geometry.location;
-        map.setCenter(oriPos.lat(), oriPos.lng());
-        GMaps.geocode({
+  if(isCurrent == true){
+    GMaps.geocode({
           address: des,
           callback: function(results,status){
             if(status == 'OK'){
               var desPos = results[0].geometry.location;
               map.renderRoute({
-                origin: [oriPos.lat(), oriPos.lng()],
+                origin: [curOri.coords.latitude, curOri.coords.longitude],
                 destination: [desPos.lat(), desPos.lng()],
                 travelMode: 'driving',
                 strokeColor: '#FE0000',
@@ -127,9 +122,38 @@ function directing(ori,des){
             }
           }
         });
+  }
+  else{
+   GMaps.geocode({
+      address: ori,
+      callback: function(results,status){
+        if(status == 'OK'){
+          var oriPos = results[0].geometry.location;
+          map.setCenter(oriPos.lat(), oriPos.lng());
+          GMaps.geocode({
+            address: des,
+            callback: function(results,status){
+              if(status == 'OK'){
+                var desPos = results[0].geometry.location;
+                map.renderRoute({
+                  origin: [oriPos.lat(), oriPos.lng()],
+                  destination: [desPos.lat(), desPos.lng()],
+                  travelMode: 'driving',
+                  strokeColor: '#FE0000',
+                  strokeOpacity: 0.6,
+                  strokeWeight: 6
+                },{panel:'#direction',draggable:true});
+              }
+              else{
+                alert("Can't find destination!");
+              }
+            }
+          });
+        }
       }
-    }
-  });
+    }); 
+  }
+  
 }
 //-------------------------------
 //Nhan direction sẽ hiện và ẩn input destination đồng thời bật tắt chế độ chỉ đường
