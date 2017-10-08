@@ -1,5 +1,6 @@
 var map;
 $(document).ready(function(){
+  $(".hidden").hide();
   map = new GMaps({
     el: '#map',
     lat: 10.7626391,
@@ -87,4 +88,17 @@ $("#button_location").click(function(event) {
       alert("Your browser does not support geolocation");
     },
   });
+});
+$("#button_direct").click(function(event) {
+  if($(".hidden").is(":hidden")){
+    $(".hidden").show();
+    $("#inputAddress").attr({
+      placeholder: 'Enter starting..',
+    });
+  }else{
+    $(".hidden").hide();
+    $("#inputAddress").attr({
+      placeholder: "Search...",
+    });
+  }
 });

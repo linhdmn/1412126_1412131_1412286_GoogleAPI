@@ -5,10 +5,12 @@ body{
 .page-map{
   padding: 10px;
 }
-#inputAddress{
-  width: 150px,
-  height:500px;
+.padding{
+  padding-right: 5px;
 }
+/*.hidden{
+  visibility: hidden;
+}*/
 #map{
   display: block;
   width: 95%;
