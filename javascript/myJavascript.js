@@ -9,7 +9,7 @@ $(document).ready(function(){
   map.setContextMenu({
     control: 'map',
     options: [{
-      title: 'Add marker',
+      title: 'Địa điểm của bạn',
       name: 'add_marker',
       action: function(e){
         console.log(e.latLng.lat());
@@ -17,7 +17,7 @@ $(document).ready(function(){
         this.addMarker({
           lat: e.latLng.lat(),
           lng: e.latLng.lng(),
-          title: 'New marker'
+          title: 'Địa điểm của bạn'
         });
         this.hideContextMenu();
       }
