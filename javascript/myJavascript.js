@@ -58,6 +58,7 @@ $("#button_search").click(function(event) {
 });
 $("#inputAddress").keyup(function(event) {
   var str = $("#inputAddress").val();
+  curOri = str;
   if(event.keyCode == 13 && str !== "")
   {
     findAddress(str);
@@ -101,40 +102,34 @@ $("#button_location").click(function(event) {
 });
 //============================================
 function directing(ori,des){
-  if(isCurrent == false){
-    GMaps.geocode({
-      address: ori,
-      callback: function(results,status){
-        if(status == 'OK'){
-          var oriPos = results[0].geometry.location;
-          map.setCenter(oriPos.lat(), oriPos.lng());
-          GMaps.geocode({
-            address: des,
-            callback: function(results,status){
-              if(status == 'OK'){
-                var desPos = results[0].geometry.location;
-                map.renderRoute({
-                  origin: [oriPos.lat(), oriPos.lng()],
-                  destination: [desPos.lat(), desPos.lng()],
-                  travelMode: 'driving',
-                  strokeColor: '#FE0000',
-                  strokeOpacity: 0.6,
-                  strokeWeight: 6
-                },{panel:'#direction',draggable:true});
-              }
-              else{
-                alert("Can't find destination!");
-              }
+  GMaps.geocode({
+    address: ori,
+    callback: function(results,status){
+      if(status == 'OK'){
+        var oriPos = results[0].geometry.location;
+        map.setCenter(oriPos.lat(), oriPos.lng());
+        GMaps.geocode({
+          address: des,
+          callback: function(results,status){
+            if(status == 'OK'){
+              var desPos = results[0].geometry.location;
+              map.renderRoute({
+                origin: [oriPos.lat(), oriPos.lng()],
+                destination: [desPos.lat(), desPos.lng()],
+                travelMode: 'driving',
+                strokeColor: '#FE0000',
+                strokeOpacity: 0.6,
+                strokeWeight: 6
+              },{panel:'#direction',draggable:true});
             }
-          });
-        }
+            else{
+              alert("Can't find destination!");
+            }
+          }
+        });
       }
-    }); 
-  }
-  else{
-
-  }
-  
+    }
+  });
 }
 //-------------------------------
 //Nhan direction sẽ hiện và ẩn input destination đồng thời bật tắt chế độ chỉ đường
