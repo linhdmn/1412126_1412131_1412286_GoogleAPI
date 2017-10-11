@@ -2,6 +2,28 @@ var map;
 var isDirecting = false;
 var isCurrent = false;
 var curOri;
+//hover show text
+$("#button_search").hover(function() {
+  $("#search-text").show();
+}, function() {
+  $("#search-text").hide();
+});
+$("#button_direct").hover(function() {
+  $("#direct-text").show();
+}, function() {
+  $("#direct-text").hide();
+});
+$("#button_location").hover(function() {
+  $("#locate-text").show();
+}, function() {
+  $("#locate-text").hide();
+});
+$("#button_swap").hover(function() {
+  $("#swap-text").show();
+}, function() {
+  $("#swap-text").hide();
+});
+//==============================
 $(document).ready(function(){
   $(".hidden").hide();
   map = new GMaps({

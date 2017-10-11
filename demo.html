@@ -27,18 +27,27 @@
 				<input type="text" name="_address" id="inputAddress" class="form-control" placeholder="Search...">
 			</div>
 			<div class="padding">
-				<button type="button" class="btn" id="button_search"><i class="fa fa-search" aria-hidden="true"></i></button>
+				<button type="button" class="btn btn-primary" id="button_search"><i class="fa fa-search" aria-hidden="true"></i></button>
+				<span class="span-hidden" id="search-text" >Search</span>
 			</div>
 			<div class="padding">
 				<button type="button" class="btn btn-success" id="button_direct"><i class="fa fa-map-signs" aria-hidden="true"></i></button>
+				<span class="span-hidden" id="direct-text">Direction</span>
 			</div>
-			<button type="button" class="btn" id="button_location"><i class="fa fa-map-marker" aria-hidden="true"></i></button>
+			<div class="padding">
+				<button type="button" class="btn btn-primary" id="button_location"><i class="fa fa-map-marker" aria-hidden="true"></i></button>
+				<span class="span-hidden" id="locate-text">Show your location</span>
+			</div>
+
 		</div>
 		<div class="row hidden" style="padding-top: 10px">
 			<div class="col-md-3">
 				<input type="text" name="_address" id="inputDestinations" class="form-control" placeholder="Enter destinations..">
 			</div>
-			<button type="button" class="btn" id="button_swap"><i class="fa fa-arrow-down" aria-hidden="true"></i><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+			<div class="padding">
+				<button type="button" class="btn btn-primary" id="button_swap"><i class="fa fa-arrow-down" aria-hidden="true"></i><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+				<span class="span-hidden" id="swap-text">swap origin and destination</span>
+			</div>
 		</div>
 	    <p id="currentLocation"></p>
 	    <div class="page-map">

@@ -8,9 +8,11 @@ body{
 .padding{
   padding-right: 5px;
 }
-/*.hidden{
-  visibility: hidden;
-}*/
+.span-hidden{
+  display: none;
+  position: absolute;
+}
+
 #map{
   display: block;
   width: 95%;
