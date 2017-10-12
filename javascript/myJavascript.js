@@ -65,7 +65,7 @@ $(".btn").click(function(event) {
   //nhan button search
   if(this.id=="button_search"){
     var str = $("#inputAddress").val();
-    if(str !== "" && isDirecting === false){
+    if(str !== "" && isDirecting == false){
       findAddress(str);
     }
     //Nếu đang chỉ đường thì kích hoạt chỉ đường
@@ -84,9 +84,9 @@ $(".btn").click(function(event) {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           });
-        curOri = position;
+        curOri = [position.coords.latitude, position.coords.longitude];
         isCurrent = true;
-        $("#inputAddress").val(position.coords.latitude, position.coords.longitude);
+        $("#inputAddress").val(curOri);
       },
       error: function(error){
         alert('Geolocation failed: '+error.message);
@@ -119,6 +119,7 @@ $(".btn").click(function(event) {
     var des = $("#inputDestinations").val();
     $("#inputAddress").val(des);
     $("#inputDestinations").val(str);
+    isCurrent = false;
   }
   //
 });
@@ -194,7 +195,7 @@ function directing(ori,des){
             if(status == 'OK'){
               var desPos = results[0].geometry.location;
               map.renderRoute({
-                origin: [curOri.coords.latitude, curOri.coords.longitude],
+                origin: curOri,
                 destination: [desPos.lat(), desPos.lng()],
                 travelMode: 'driving',
                 strokeColor: '#FE0000',
