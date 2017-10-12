@@ -186,6 +186,7 @@ function clickOnMap(event){
 
 //============================================
 function directing(ori,des){
+  console.log($("#input_mode").val());
   if(isCurrent == true){
     GMaps.geocode({
           address: des,
@@ -222,7 +223,7 @@ function directing(ori,des){
                 map.renderRoute({
                   origin: [oriPos.lat(), oriPos.lng()],
                   destination: [desPos.lat(), desPos.lng()],
-                  travelMode: 'driving',
+                  travelMode: $("#input_mode").val(),
                   strokeColor: '#FE0000',
                   strokeOpacity: 0.6,
                   strokeWeight: 6
