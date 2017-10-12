@@ -7,7 +7,11 @@
 	<link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css">
 	<script type="text/javascript" src="javascript/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="javascript/gmaps.js"></script>
+<!-- 		<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqG55x6-7BVevi2doMzzPFqmmATL55iPU&libraries=places">
+    </script> -->
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true?key=AIzaSyCqG55x6-7BVevi2doMzzPFqmmATL55iPU"></script>
+
 
 <!-- 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 
@@ -18,13 +22,13 @@
   <link rel="stylesheet" type="text/css" href="css/examples.css" /> -->
 </head>
 <body>
-	<div class="container-fluid">
+	<div class="container">
 		<div class="page-header">
 		  <h1>Demo google maps API</h1>
 		</div>
 		<div class="row">
 			<div class="col-md-3">
-				<input type="text" name="_address" id="inputAddress" class="form-control" placeholder="Search...">
+				<input type="text" name="_address" id="inputAddress" class="form-control" placeholder="Search..." tabindex="1">
 			</div>
 			<div class="padding">
 				<button type="button" class="btn btn-primary" id="button_search"><i class="fa fa-search" aria-hidden="true"></i></button>
@@ -42,7 +46,7 @@
 		</div>
 		<div class="row hidden" style="padding-top: 10px">
 			<div class="col-md-3">
-				<input type="text" name="_address" id="inputDestinations" class="form-control" placeholder="Enter destinations..">
+				<input type="text" name="_address" id="inputDestinations" class="form-control" placeholder="Enter destinations.." tabindex="2">
 			</div>
 			<div class="padding">
 				<button type="button" class="btn btn-primary" id="button_swap"><i class="fa fa-arrow-down" aria-hidden="true"></i><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
