@@ -74,6 +74,7 @@ $("#button_search").click(function(event) {
     }
     //Nếu đang chỉ đường thì kích hoạt chỉ đường
     if(isDirecting == true){
+      map.removeMarkers();
       var des = $("#inputDestinations").val();
       directing(str,des);
     }
