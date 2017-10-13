@@ -147,6 +147,14 @@ function findAddress(str){
 //================================
 function clickOnMap(event){
   console.log(event.placeId);
+  if(event.placeId){
+    var url = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' + event.placeId + 
+         '&key=AIzaSyCqG55x6-7BVevi2doMzzPFqmmATL55iPU'
+    $.getJSON(url,function(data){
+      
+      $("#inputAddress").val(data.result.name);
+    });
+  }
   // if(event.placeId){
   //   $.ajax({
   //     url: 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' + event.placeId + 
