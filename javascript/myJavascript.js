@@ -56,7 +56,7 @@ $(".btn").click(function(event) {
           });
         curOri = [position.coords.latitude, position.coords.longitude];
         isCurrent = true;
-        $("#inputAddress").val(curOri);
+        $("#inputAddress").val("your location");
       },
       error: function(error){
         alert('Geolocation failed: '+error.message);
@@ -89,7 +89,7 @@ $(".btn").click(function(event) {
     var des = $("#inputDestinations").val();
     $("#inputAddress").val(des);
     $("#inputDestinations").val(str);
-    isCurrent = false;
+    isCurrent = true;
   }
   //
 });
@@ -130,6 +130,16 @@ function clickOnMap(event){
       $("#inputAddress").val(data.result.name);
     });
   }
+  // var xhttp = new XMLHttpRequest();
+  // xhttp.onreadystatechange = function() {
+  //   if (this.readyState == 4 && this.status == 200) {
+  //      // Typical action to be performed when the document is ready:
+  //      console.log("success");
+  //   }
+  // };
+  // xhttp.open("GET", 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' + event.placeId + 
+  //        '&key=AIzaSyCqG55x6-7BVevi2doMzzPFqmmATL55iPU', true);
+  // xhttp.send();
   // if(event.placeId){
   //   $.ajax({
   //     url: 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' + event.placeId + 
@@ -189,10 +199,13 @@ function initMap(){
 }
 //============================================
 function directing(ori,des){
+  console.log('directiing: ' + isDirecting);
+  console.log('current: ' + isCurrent);
   // console.log($("#input_mode").val());
   initMap();
   if(isCurrent == true){
-    GMaps.geocode({
+    if( $("#inputAddress").val() == "your location"){
+      GMaps.geocode({
           address: des,
           callback: function(results,status){
             if(status == 'OK'){
@@ -210,7 +223,30 @@ function directing(ori,des){
               alert("Can't find destination!");
             }
           }
-        });
+      });  
+    }
+    else{
+      GMaps.geocode({
+          address: ori,
+          callback: function(results,status){
+            if(status == 'OK'){
+              var oriPos = results[0].geometry.location;
+              map.renderRoute({
+                origin: [oriPos.lat(),oriPos.lng()],
+                destination: curOri,
+                travelMode: $("#input_mode").val(),
+                strokeColor: '#FE0000',
+                strokeOpacity: 0.6,
+                strokeWeight: 6
+              },{panel:'#direction',draggable:true});
+            }
+            else{
+              alert("Can't find origin!");
+            }
+          }
+      });
+    }
+    
   }
   else{
    GMaps.geocode({
