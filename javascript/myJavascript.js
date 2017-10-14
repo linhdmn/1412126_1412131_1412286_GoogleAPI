@@ -27,37 +27,7 @@ $("#button_swap").hover(function() {
 //==============================
 $(document).ready(function(){
   $(".hidden").hide();
-  map = new GMaps({
-    el: '#map',
-    lat: 10.7626391,
-    lng: 106.6820268,
-    click: function(event) {
-      clickOnMap(event);
-    }
-  });
-  map.setContextMenu({
-    control: 'map',
-    options: [{
-      title: 'Add maker here',
-      name: 'add_marker',
-      action: function(e){
-        console.log(e.latLng.lat());
-        console.log(e.latLng.lng());
-        this.addMarker({
-          lat: e.latLng.lat(),
-          lng: e.latLng.lng(),
-          title: 'Add maker here'
-        });
-        this.hideContextMenu();
-      }
-    }, {
-      title: 'Center here',
-      name: 'center_here',
-      action: function(e){
-        this.setCenter(e.latLng.lat(), e.latLng.lng());
-      }
-    }]
-  });
+  initMap();
 });
 //=======================================
 $(".btn").click(function(event) {
@@ -124,17 +94,21 @@ $(".btn").click(function(event) {
   //
 });
 $("#inputAddress").keyup(function(event) {
+  isCurrent = false;
   var str = $("#inputAddress").val();
   if(event.keyCode == 13 && str !== "" && isDirecting === false)
   {
     findAddress(str);
   }
 });
+//-------------------------------------
 function findAddress(str){
   GMaps.geocode({
     address: str,
     callback: function(results,status){
       if(status == 'OK'){
+        isCurrent = false;
+        map.removeMarkers();
         var latlng = results[0].geometry.location;
         map.setCenter(latlng.lat(), latlng.lng());
         map.addMarker({
@@ -192,10 +166,31 @@ function clickOnMap(event){
   //   });  
   // }
 }
-
+//========================================
+function initMap(){
+  map = new GMaps({
+    el: '#map',
+    lat: 10.7626391,
+    lng: 106.6820268,
+    click: function(event) {
+      clickOnMap(event);
+    }
+  });
+  map.setContextMenu({
+    control: 'map',
+    options: [ {
+      title: 'Center here',
+      name: 'center_here',
+      action: function(e){
+        this.setCenter(e.latLng.lat(), e.latLng.lng());
+      }
+    }]
+  });
+}
 //============================================
 function directing(ori,des){
-  console.log($("#input_mode").val());
+  // console.log($("#input_mode").val());
+  initMap();
   if(isCurrent == true){
     GMaps.geocode({
           address: des,
@@ -205,7 +200,7 @@ function directing(ori,des){
               map.renderRoute({
                 origin: curOri,
                 destination: [desPos.lat(), desPos.lng()],
-                travelMode: 'driving',
+                travelMode: $("#input_mode").val(),
                 strokeColor: '#FE0000',
                 strokeOpacity: 0.6,
                 strokeWeight: 6
